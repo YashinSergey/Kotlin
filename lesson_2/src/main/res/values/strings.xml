@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Lesson_2</string>
+    <string name="app_name">FirstKotlinApp</string>
+    <string name="button">button</string>
+    <string name="refresh">Refresh</string>
 </resources>
