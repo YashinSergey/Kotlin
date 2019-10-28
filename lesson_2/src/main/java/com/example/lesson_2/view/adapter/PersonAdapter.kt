@@ -1,4 +1,4 @@
-package com.example.lesson_2.model.adapter
+package com.example.lesson_2.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,11 @@ class PersonAdapter : RecyclerView.Adapter<PersonAdapter.PersonHolder>() {
     private var persons: List<Person> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonHolder {
-        return PersonHolder(LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false))
+        return PersonHolder(
+            LayoutInflater.from(
+                parent.context
+            ).inflate(R.layout.person_item, parent, false)
+        )
     }
 
     override fun getItemCount() = persons.size

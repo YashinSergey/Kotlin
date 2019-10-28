@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lesson_2.R
-import com.example.lesson_2.model.adapter.PersonAdapter
+import com.example.lesson_2.view.adapter.PersonAdapter
 import com.example.lesson_2.view_model.PersonViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
