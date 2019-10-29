@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/userName"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_view_margin"
+        android:layout_marginEnd="@dimen/text_view_margin"
+        android:layout_marginTop="@dimen/text_view_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        tools:text="Elvis Presley:"/>
+
+    <TextView
+        android:id="@+id/userDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_marginStart="@dimen/text_view_margin"
+        android:layout_marginEnd="@dimen/text_view_margin"
+        android:layout_marginTop="@dimen/text_view_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        tools:text="American musician, the king of Rock and Roll or simply 'the King'"/>
+
+</RelativeLayout>
