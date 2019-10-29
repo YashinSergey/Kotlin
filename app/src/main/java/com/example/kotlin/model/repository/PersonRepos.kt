@@ -1,6 +1,7 @@
-package com.example.lesson_2.model.repository
+package com.example.kotlin.model.repository
 
-import com.example.lesson_2.model.entity.Person
+import com.example.kotlin.model.entity.Person
+
 
 object PersonRepos {
 

@@ -1,9 +1,10 @@
-package com.example.lesson_2.view_model
+package com.example.kotlin.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.lesson_2.model.repository.PersonRepos
-import com.example.lesson_2.view.MainViewState
+import com.example.kotlin.model.repository.PersonRepos
+import com.example.kotlin.view.MainViewState
+
 
 class PersonViewModel : ViewModel() {
 

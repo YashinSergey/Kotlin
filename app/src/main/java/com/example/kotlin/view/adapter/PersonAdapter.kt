@@ -1,12 +1,12 @@
-package com.example.lesson_2.view.adapter
+package com.example.kotlin.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lesson_2.view.MainViewState
-import com.example.lesson_2.R
-import com.example.lesson_2.model.entity.Person
+import com.example.kotlin.R
+import com.example.kotlin.model.entity.Person
+import com.example.kotlin.view.MainViewState
 import kotlinx.android.synthetic.main.person_item.view.*
 
 

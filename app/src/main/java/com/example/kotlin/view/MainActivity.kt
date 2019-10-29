@@ -1,4 +1,4 @@
-package com.example.lesson_2.view
+package com.example.kotlin.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,9 +7,9 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lesson_2.R
-import com.example.lesson_2.view.adapter.PersonAdapter
-import com.example.lesson_2.view_model.PersonViewModel
+import com.example.kotlin.R
+import com.example.kotlin.view.adapter.PersonAdapter
+import com.example.kotlin.viewmodel.PersonViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

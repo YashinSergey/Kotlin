@@ -1,2 +1,2 @@
-include ':app', ':lesson_2'
+include ':app'
 rootProject.name='Kotlin'
