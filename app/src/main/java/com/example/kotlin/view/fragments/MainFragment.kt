@@ -1,9 +1,7 @@
 package com.example.kotlin.view.fragments
 
-import android.app.Person
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -16,7 +14,6 @@ import com.example.kotlin.view.MainActivity
 import com.example.kotlin.view.adapter.MainAdapter
 import com.example.kotlin.viewmodel.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment: Fragment() {
 
@@ -27,10 +24,6 @@ class MainFragment: Fragment() {
     private lateinit var activity: MainActivity
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var personFragment: PersonFragment
-
-    companion object {
-        const val KEY = "key to bundle"
-    }
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

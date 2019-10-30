@@ -46,8 +46,4 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
 }

@@ -27,12 +27,15 @@ class PersonFragment : Fragment() {
     lateinit var fullName: TextInputEditText
     lateinit var personDescription: EditText
 
+
     companion object {
-        private const val DATE_TIME_FORMAT = "dd.mm.yy HH:mm"
+        private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
+        const val KEY = "key to bundle"
 
         fun start(activity: MainActivity, person: Person) {
             val bundle: Bundle? = Bundle()
-            bundle?.putParcelable(MainFragment.KEY, person)
+            bundle?.putParcelable(KEY, person)
+            person.name
             activity.personFragment?.let { activity.replaceFragment(it) }
         }
     }
@@ -40,8 +43,8 @@ class PersonFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_person, container, false)
         activity = getActivity() as MainActivity
-        val bundle = arguments
-        person = bundle?.getParcelable(MainFragment.KEY)
+        val bundle = this.arguments
+        person = bundle?.getParcelable(KEY)
         personViewModel = ViewModelProviders.of(this).get(PersonViewModel::class.java)
 
         initViews(view)
@@ -104,8 +107,7 @@ class PersonFragment : Fragment() {
         ) ?: Person(
             UUID.randomUUID().toString(),
             fullName.text.toString(),
-            personDescription.text.toString(),
-            lastChanged = Date()
+            personDescription.text.toString()
         )
        person?.let { personViewModel.save(it) }
     }
