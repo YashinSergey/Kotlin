@@ -32,6 +32,10 @@ object PersonRepos {
         Person(UUID.randomUUID().toString(),"Paul McCartney:","British musician, member of Beatles", setColor())
     )
 
+    init {
+        personsLiveData.value = persons
+    }
+
     fun getPersons() : LiveData<List<Person>> {
         return personsLiveData
     }

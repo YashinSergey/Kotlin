@@ -4,4 +4,5 @@
     <string name="add_new_file">Add new file</string>
     <string name="full_name">ФИО</string>
     <string name="description">Характеристика</string>
+    <string name="last_change_date">Дата последнего изменения: </string>
 </resources>

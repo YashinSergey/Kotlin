@@ -10,17 +10,12 @@ import com.example.kotlin.model.entity.Person
 import com.example.kotlin.view.MainViewState
 import kotlinx.android.synthetic.main.item_person.view.*
 
-
 class MainAdapter(val onItemClick: ((Person) -> Unit)? = null) : RecyclerView.Adapter<MainAdapter.PersonHolder>() {
 
     private var persons: List<Person> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonHolder {
-        return PersonHolder(
-            LayoutInflater.from(
-                parent.context
-            ).inflate(R.layout.item_person, parent, false)
-        )
+        return PersonHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_person, parent, false))
     }
 
     override fun getItemCount() = persons.size
