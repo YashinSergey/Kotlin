@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Kotlin</string>
     <string name="button">button</string>
-    <string name="refresh">Refresh</string>
+    <string name="add_new_file">Add new file</string>
+    <string name="full_name">ФИО</string>
+    <string name="description">Характеристика</string>
 </resources>

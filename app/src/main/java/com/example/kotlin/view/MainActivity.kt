@@ -8,34 +8,40 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlin.R
-import com.example.kotlin.view.adapter.PersonAdapter
-import com.example.kotlin.viewmodel.PersonViewModel
+import com.example.kotlin.view.adapter.MainAdapter
+import com.example.kotlin.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val personViewModel by lazy {ViewModelProviders.of(this).get(PersonViewModel::class.java)}
-    private lateinit var adapter: PersonAdapter
+    private val personViewModel by lazy {ViewModelProviders.of(this).get(MainViewModel::class.java)}
+    private lateinit var adapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        adapter = PersonAdapter()
+        adapter = MainAdapter{
+
+        }
         initPersonList(adapter)
 
         createObserver()
+
+        floatingActionButton.setOnClickListener {
+
+        }
     }
 
     private fun createObserver() {
         personViewModel.getViewState().observe(this, Observer {
             it?.let {
-                adapter.refreshPersonList(it)
+                adapter.refreshPersonsList(it)
             }
         })
     }
 
-    private fun initPersonList(a: PersonAdapter) {
+    private fun initPersonList(a: MainAdapter) {
         personList.layoutManager = LinearLayoutManager(this)
         personList.adapter = a
     }
@@ -47,9 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.refresh -> {
-                personViewModel.updateViewState()
-            }
+
         }
         return super.onOptionsItemSelected(item)
     }
