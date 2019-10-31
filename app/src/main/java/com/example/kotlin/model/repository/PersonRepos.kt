@@ -1,32 +1,68 @@
 package com.example.kotlin.model.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.kotlin.model.entity.Person
+import java.util.*
 
 
 object PersonRepos {
 
-    val persons = listOf(
-        Person("Marilyn Monroe:","American actress, singer, model", 0xfff06292 .toInt()),
-        Person("Abraham Lincoln:","US President during American civil war", 0xff9575cd .toInt()),
-        Person("Mother Teresa:","Macedonian Catholic missionary nun", 0xff64b5f6 .toInt()),
-        Person("John F. Kennedy:", "US President 1961 - 1963", 0xff4db6ac .toInt()))
+    private var whiteColor: Boolean = true
+    private val personsLiveData = MutableLiveData<List<Person>>()
 
-//    fun getPersons() {}
-
-    fun getAnotherPersons() = listOf(
-        Person("Martin Luther King:","American civil rights campaigner", 0xffb2ff59 .toInt()),
-        Person("Nelson Mandela:","South African President anti-apartheid campaigner",0xffffeb3b .toInt()),
-        Person("Queen Elizabeth:","British monarch since 1954", 0xffff6e40 .toInt()),
-        Person("Winston Churchill:","British Prime Minister during WWII", 0xfff06292 .toInt()),
-        Person("Donald Trump:", "US President, Businessman", 0xff9575cd .toInt()),
-        Person("Bill Gates:","American businessman, founder of Microsoft", 0xff64b5f6 .toInt()),
-        Person("Muhammad Ali:","American boxer and civil rights campaigner", 0xff4db6ac .toInt()),
-        Person("Mahatma Gandhi:","Leader of Indian independence movement", 0xffb2ff59 .toInt()),
-        Person("Margaret Thatcher:","British Prime Minister 1979 - 1990", 0xffffeb3b .toInt()),
-        Person("Christopher Columbus:", "Italian explorer", 0xffff6e40 .toInt()),
-        Person("Charles Darwin:","British scientist, author of the theory of evolution", 0xfff06292 .toInt()),
-        Person("Elvis Presley:","American musician, the king of Rock and Roll or simply \"the King\"", 0xff9575cd .toInt()),
-        Person("Albert Einstein:","German scientist, author of the theory of relativity", 0xff64b5f6 .toInt()),
-        Person("Paul McCartney:","British musician, member of Beatles", 0xff4db6ac .toInt())
+    private val persons = mutableListOf(
+        Person(UUID.randomUUID().toString(),"Marilyn Monroe:","American actress, singer, model",setColor()),
+        Person(UUID.randomUUID().toString(),"Abraham Lincoln:","US President during American civil war", setColor()),
+        Person(UUID.randomUUID().toString(),"Mother Teresa:","Macedonian Catholic missionary nun", setColor()),
+        Person(UUID.randomUUID().toString(),"John F. Kennedy:", "US President 1961 - 1963", setColor()),
+        Person(UUID.randomUUID().toString(),"Martin Luther King:","American civil rights campaigner", setColor()),
+        Person(UUID.randomUUID().toString(),"Nelson Mandela:","South African President anti-apartheid campaigner",setColor()),
+        Person(UUID.randomUUID().toString(),"Queen Elizabeth:","British monarch since 1954", setColor()),
+        Person(UUID.randomUUID().toString(),"Winston Churchill:","British Prime Minister during WWII",setColor()),
+        Person(UUID.randomUUID().toString(),"Donald Trump:", "US President, Businessman",setColor()),
+        Person(UUID.randomUUID().toString(),"Bill Gates:","American businessman, founder of Microsoft", setColor()),
+        Person(UUID.randomUUID().toString(),"Muhammad Ali:","American boxer and civil rights campaigner", setColor()),
+        Person(UUID.randomUUID().toString(),"Mahatma Gandhi:","Leader of Indian independence movement", setColor()),
+        Person(UUID.randomUUID().toString(),"Margaret Thatcher:","British Prime Minister 1979 - 1990", setColor()),
+        Person(UUID.randomUUID().toString(),"Christopher Columbus:", "Italian explorer", setColor()),
+        Person(UUID.randomUUID().toString(),"Charles Darwin:","British scientist, author of the theory of evolution", setColor()),
+        Person(UUID.randomUUID().toString(),"Elvis Presley:","American musician, the king of Rock and Roll or simply \"the King\"", setColor()),
+        Person(UUID.randomUUID().toString(),"Albert Einstein:","German scientist, author of the theory of relativity", setColor()),
+        Person(UUID.randomUUID().toString(),"Paul McCartney:","British musician, member of Beatles", setColor())
     )
+
+    init {
+        personsLiveData.value = persons
+    }
+
+    fun getPersons() : LiveData<List<Person>> {
+        return personsLiveData
+    }
+
+    fun savePerson(person: Person) {
+        addOrReplace(person)
+        personsLiveData.value = persons
+    }
+
+    private fun addOrReplace(person: Person) {
+        for (i in 0 until persons.size) {
+            if (persons[i] == person) {
+                persons[i] = person
+                return
+            }
+        }
+        persons.add(person)
+    }
+
+    private fun setColor(): Person.Color {
+        var color = Person.Color.WHITE
+        if (whiteColor) {
+            whiteColor = false
+        } else {
+            color =  Person.Color.DARK_WHITE
+            whiteColor = true
+        }
+        return color
+    }
 }

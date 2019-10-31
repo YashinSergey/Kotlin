@@ -4,40 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import com.example.kotlin.R
-import com.example.kotlin.view.adapter.PersonAdapter
-import com.example.kotlin.viewmodel.PersonViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.kotlin.view.fragments.MainFragment
+import com.example.kotlin.view.fragments.PersonFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private val personViewModel by lazy {ViewModelProviders.of(this).get(PersonViewModel::class.java)}
-    private lateinit var adapter: PersonAdapter
+    var mainFragment: MainFragment? = null
+    var personFragment: PersonFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        adapter = PersonAdapter()
-        initPersonList(adapter)
-
-        createObserver()
-    }
-
-    private fun createObserver() {
-        personViewModel.getViewState().observe(this, Observer {
-            it?.let {
-                adapter.refreshPersonList(it)
-            }
-        })
-    }
-
-    private fun initPersonList(a: PersonAdapter) {
-        personList.layoutManager = LinearLayoutManager(this)
-        personList.adapter = a
+        initFragments(savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -47,10 +27,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.refresh -> {
-                personViewModel.updateViewState()
-            }
+            //TODO add something later
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initFragments(savedInstanceState: Bundle?) {
+        mainFragment = MainFragment()
+        personFragment = PersonFragment()
+        if (savedInstanceState == null) {
+            replaceFragment(mainFragment!!)
+        }
+    }
+
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentsContainer, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

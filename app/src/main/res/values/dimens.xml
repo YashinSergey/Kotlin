@@ -2,4 +2,7 @@
 <resources>
     <dimen name="text_view_margin">8dp</dimen>
     <dimen name="paddingBottom">5dp</dimen>
+    <dimen name="last_change_date_text_size">16sp</dimen>
+    <dimen name="margin_floating_action_button">16dp</dimen>
+    <dimen name="padding_of_fragment_person">5dp</dimen>
 </resources>
