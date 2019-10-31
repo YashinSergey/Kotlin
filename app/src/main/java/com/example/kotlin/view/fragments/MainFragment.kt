@@ -32,7 +32,7 @@ class MainFragment: Fragment() {
         personFragment = PersonFragment()
 
         adapter = MainAdapter{
-            PersonFragment.start(activity, it)
+            activity.replaceFragment(PersonFragment.newInstance(it))
         }
 
         initViews(adapter, view)

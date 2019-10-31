@@ -32,11 +32,12 @@ class PersonFragment : Fragment() {
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
         const val KEY = "key to bundle"
 
-        fun start(activity: MainActivity, person: Person) {
-            val bundle: Bundle? = Bundle()
-            bundle?.putParcelable(KEY, person)
-            person.name
-            activity.personFragment?.let { activity.replaceFragment(it) }
+        fun newInstance(person: Person) : PersonFragment {
+            val personFragment = PersonFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(KEY, person)
+            personFragment.arguments = bundle
+            return personFragment
         }
     }
 
@@ -75,7 +76,7 @@ class PersonFragment : Fragment() {
         personDescription.removeTextChangedListener(textChangeListener)
 
         if (person != null) {
-            fullName.setText(person?.name ?: "")
+            fullName.setText(person?.name?.replace(":", "") ?: "")
             personDescription.setText(person?.description ?: "")
             val color = when(person!!.color) {
                 Person.Color.WHITE -> R.color.white
