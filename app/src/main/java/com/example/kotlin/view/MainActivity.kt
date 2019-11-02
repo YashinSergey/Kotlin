@@ -1,13 +1,14 @@
 package com.example.kotlin.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.kotlin.R
 import com.example.kotlin.view.fragments.MainFragment
 import com.example.kotlin.view.fragments.PersonFragment
+
 
 class MainActivity : AppCompatActivity() {
 

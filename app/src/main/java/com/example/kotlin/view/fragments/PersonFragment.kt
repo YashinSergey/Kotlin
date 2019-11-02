@@ -1,5 +1,6 @@
 package com.example.kotlin.view.fragments
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,58 +9,63 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.view.MainActivity
-import com.example.kotlin.viewmodel.PersonViewModel
+import com.example.kotlin.view.viewstates.PersonViewState
+import com.example.kotlin.viewmodels.PersonViewModel
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PersonFragment : Fragment() {
+class PersonFragment : BaseFragment<Person?, PersonViewState>() {
+    override val viewModel: PersonViewModel by lazy { ViewModelProviders.of(this).get(PersonViewModel::class.java) }
 
     private lateinit var activity: MainActivity
+
     private var person: Person? = null
-    lateinit var personViewModel: PersonViewModel
     lateinit var tvLastChangeDate: TextView
     lateinit var fullName: TextInputEditText
     lateinit var personDescription: EditText
-
+    override val layoutRes: Int = R.layout.fragment_person
 
     companion object {
+
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
-        const val KEY = "key to bundle"
-
-        fun newInstance(person: Person) : PersonFragment {
-            val personFragment = PersonFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(KEY, person)
-            personFragment.arguments = bundle
-            return personFragment
+        const val KEY = "person"
+        fun newInstance(personId: String?) = PersonFragment().apply {
+            arguments = Bundle().apply { putString(KEY, personId) }
         }
+
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_person, container, false)
+        val view = inflater.inflate(layoutRes, container, false)
         activity = getActivity() as MainActivity
-        val bundle = this.arguments
-        person = bundle?.getParcelable(KEY)
-        personViewModel = ViewModelProviders.of(this).get(PersonViewModel::class.java)
 
-        initViews(view)
-
+        setPersonIfNotNull(view)
         setTextViewLastChangeDate()
-
         return view
     }
 
+    private fun setPersonIfNotNull(view: View) {
+        val bundle = this.arguments
+        val personId = bundle?.getString(KEY)
+
+        personId?.let {
+            viewModel.loadPerson(it)
+        }
+        initViews(view)
+    }
+
+    override fun renderData(data: Person?) {
+        this.person = data
+    }
+
     private fun setTextViewLastChangeDate() {
-        tvLastChangeDate.text = if (person != null) {
-            setLastChangeDate(person!!.lastChanged)
-        } else {
-            setLastChangeDate(Date())
+        when {
+            person != null -> setLastChangeDate(person!!.lastChanged)
+            else -> setLastChangeDate(Date())
         }
     }
 
@@ -84,18 +90,8 @@ class PersonFragment : Fragment() {
             }
             view.setBackgroundColor(resources.getColor(color))
         }
-
         fullName.addTextChangedListener(textChangeListener)
         personDescription.addTextChangedListener(textChangeListener)
-    }
-
-    private val textChangeListener = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-           savePerson()
-        }
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
     }
 
     fun savePerson() {
@@ -110,7 +106,16 @@ class PersonFragment : Fragment() {
             fullName.text.toString(),
             personDescription.text.toString()
         )
-       person?.let { personViewModel.save(it) }
+        person?.let { viewModel.save(it) }
+    }
+
+    private val textChangeListener = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+           savePerson()
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
     }
 }
 

@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-data class Person(val id: String, val name: String, val description: String,
+data class Person(val id: String = "", val name: String = "", val description: String = "",
                   val color: Color = Color.WHITE, val lastChanged: Date = Date()) : Parcelable {
 
     override fun equals(other: Any?): Boolean {

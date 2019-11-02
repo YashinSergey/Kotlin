@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "149630547565",
+    "firebase_url": "https://personal-data-app-a2a61.firebaseio.com",
+    "project_id": "personal-data-app-a2a61",
+    "storage_bucket": "personal-data-app-a2a61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149630547565:android:e0c0086a041c52994e7164",
+        "android_client_info": {
+          "package_name": "com.example.kotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149630547565-fqcqqe49gnih8l50lbhq98s3q1k6n63r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3ITEGS5gKqcXJsAu0ZceXR68iQSsfvpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149630547565-fqcqqe49gnih8l50lbhq98s3q1k6n63r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
