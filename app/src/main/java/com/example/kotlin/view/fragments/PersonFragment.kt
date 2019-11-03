@@ -1,6 +1,5 @@
 package com.example.kotlin.view.fragments
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -43,19 +42,19 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         val view = inflater.inflate(layoutRes, container, false)
         activity = getActivity() as MainActivity
 
-        setPersonIfNotNull(view)
+        setPersonIfNotNull()
+        initViews(view)
         setTextViewLastChangeDate()
         return view
     }
 
-    private fun setPersonIfNotNull(view: View) {
+    private fun setPersonIfNotNull() {
         val bundle = this.arguments
         val personId = bundle?.getString(KEY)
 
         personId?.let {
             viewModel.loadPerson(it)
         }
-        initViews(view)
     }
 
     override fun renderData(data: Person?) {
