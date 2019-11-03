@@ -27,7 +27,6 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
     lateinit var tvLastChangeDate: TextView
     lateinit var fullName: TextInputEditText
     lateinit var personDescription: EditText
-    override val layoutRes: Int = R.layout.fragment_person
 
     companion object {
 
@@ -39,7 +38,7 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(layoutRes, container, false)
+        val view = inflater.inflate(R.layout.fragment_person, container, false)
         activity = getActivity() as MainActivity
 
         setPersonIfNotNull()

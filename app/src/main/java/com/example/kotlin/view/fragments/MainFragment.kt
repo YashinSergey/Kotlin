@@ -23,12 +23,10 @@ class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
 
     override val viewModel: MainViewModel by lazy { ViewModelProviders.of(this).get(MainViewModel::class.java)}
 
-    override val layoutRes: Int = R.layout.fragment_main
-
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(layoutRes, container, false)
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
         activity = getActivity() as MainActivity
 
         adapter = MainAdapter{

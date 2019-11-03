@@ -10,11 +10,9 @@ import com.example.kotlin.view.viewstates.BaseViewState
 abstract class BaseFragment<T, E: BaseViewState<T>> : Fragment() {
 
     abstract val viewModel: BaseViewModel<T, E>
-    abstract val layoutRes: Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutRes?.let { it }
         viewModel.getViewState().observe(this, Observer<E> {
             it ?: return@Observer
             it.error?.let { error ->
