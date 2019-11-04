@@ -6,15 +6,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.view.MainActivity
 import com.example.kotlin.view.viewstates.PersonViewState
 import com.example.kotlin.viewmodels.PersonViewModel
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_person.*
 import java.text.SimpleDateFormat
 import java.util.*
