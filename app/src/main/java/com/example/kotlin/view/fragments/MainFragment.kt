@@ -14,12 +14,12 @@ import com.example.kotlin.view.adapters.MainAdapter
 import com.example.kotlin.view.viewstates.MainViewState
 import com.example.kotlin.viewmodels.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
 
     private lateinit var adapter: MainAdapter
     private lateinit var activity: MainActivity
-    private lateinit var floatingActionButton: FloatingActionButton
 
     override val viewModel: MainViewModel by lazy { ViewModelProviders.of(this).get(MainViewModel::class.java)}
 
@@ -28,7 +28,11 @@ class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         activity = getActivity() as MainActivity
+        return view
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         adapter = MainAdapter{
             activity.run { replaceFragment(PersonFragment.newInstance(it.id)) }
         }
@@ -38,16 +42,13 @@ class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
         floatingActionButton.setOnClickListener {
             activity.run { replaceFragment(PersonFragment.newInstance(null)) }
         }
-        return view
     }
 
     private fun initViews(a: MainAdapter, view: View) {
-        val personList = view.findViewById<RecyclerView>(R.id.personList)
         personList.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = a
         }
-        floatingActionButton = view.findViewById(R.id.floatingActionButton)
     }
 
     override fun renderData(data: List<Person>?) {

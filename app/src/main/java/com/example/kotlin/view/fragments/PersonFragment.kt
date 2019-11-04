@@ -15,6 +15,7 @@ import com.example.kotlin.view.MainActivity
 import com.example.kotlin.view.viewstates.PersonViewState
 import com.example.kotlin.viewmodels.PersonViewModel
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_person.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,9 +25,6 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
     private lateinit var activity: MainActivity
 
     private var person: Person? = null
-    lateinit var tvLastChangeDate: TextView
-    lateinit var fullName: TextInputEditText
-    lateinit var personDescription: EditText
 
     companion object {
 
@@ -40,11 +38,14 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_person, container, false)
         activity = getActivity() as MainActivity
-
-        setPersonIfNotNull()
-        initViews(view)
-        setTextViewLastChangeDate()
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setPersonIfNotNull()
+        initViews()
+        setTextViewLastChangeDate()
     }
 
     private fun setPersonIfNotNull() {
@@ -58,6 +59,7 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
 
     override fun renderData(data: Person?) {
         this.person = data
+        initViews()
     }
 
     private fun setTextViewLastChangeDate() {
@@ -71,11 +73,7 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         return SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(date)
     }
 
-    private fun initViews(view: View) {
-        tvLastChangeDate = view.findViewById(R.id.tvLastChangeDate)
-        fullName = view.findViewById(R.id.fullName)
-        personDescription = view.findViewById(R.id.personDescription)
-
+    private fun initViews() {
         fullName.removeTextChangedListener(textChangeListener)
         personDescription.removeTextChangedListener(textChangeListener)
 
@@ -86,7 +84,7 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
                 Person.Color.WHITE -> R.color.white
                 Person.Color.DARK_WHITE -> R.color.darkWhite
             }
-            view.setBackgroundColor(resources.getColor(color))
+            this.view?.setBackgroundColor(resources.getColor(color))
         }
         fullName.addTextChangedListener(textChangeListener)
         personDescription.addTextChangedListener(textChangeListener)
