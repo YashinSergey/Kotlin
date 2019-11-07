@@ -1,4 +1,4 @@
-package com.example.kotlin.view.adapter
+package com.example.kotlin.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.view.MainViewState
 import kotlinx.android.synthetic.main.item_person.view.*
 
 class MainAdapter(val onItemClick: ((Person) -> Unit)? = null) : RecyclerView.Adapter<MainAdapter.PersonHolder>() {
@@ -24,8 +23,8 @@ class MainAdapter(val onItemClick: ((Person) -> Unit)? = null) : RecyclerView.Ad
         holder.bind(persons[position])
     }
 
-    fun refreshPersonsList(mainViewState: MainViewState) {
-        this.persons = mainViewState.persons
+    fun refreshPersonsList(list: List<Person>) {
+        this.persons = list
         notifyDataSetChanged()
     }
 
