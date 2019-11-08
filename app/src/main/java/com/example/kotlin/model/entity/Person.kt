@@ -1,6 +1,10 @@
 package com.example.kotlin.model.entity
 
+import android.content.Context
 import android.os.Parcelable
+import androidx.core.content.ContextCompat
+import com.example.kotlin.R
+import com.example.kotlin.model.repository.PersonsRepos
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -26,6 +30,12 @@ data class Person(val id: String = "", val name: String = "", val description: S
     }
 
     enum class Color {
-        WHITE, WHITE_DARK
+        WHITE, WHITE_DARK;
+
+        fun getColorInt(context: Context) :Int = ContextCompat.getColor(context,
+            when(PersonsRepos.setColor()) {
+                WHITE -> R.color.white
+                WHITE_DARK -> R.color.white_dark
+            })
     }
 }

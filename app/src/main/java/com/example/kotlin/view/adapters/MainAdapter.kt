@@ -3,7 +3,6 @@ package com.example.kotlin.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
@@ -32,12 +31,9 @@ class MainAdapter(val onItemClick: ((Person) -> Unit)? = null) : RecyclerView.Ad
         fun bind(person: Person) = with(itemView) {
             userName.text = person.name
             userDescription.text = person.description
-            val color = when(person.color) {
-                Person.Color.WHITE -> R.color.white
-                Person.Color.WHITE_DARK -> R.color.white_dark
+            val color = person.color.getColorInt(itemView.context)
+            setBackgroundColor(color)
 
-            }
-            setBackgroundColor(ContextCompat.getColor(itemView.context, color))
             itemView.setOnClickListener {
                 onItemClick?.invoke(person)
             }

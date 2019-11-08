@@ -77,11 +77,7 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         person?.let {person ->
             fullName.setText(person.name.replace(":", ""))
             personDescription.setText(person.description)
-            val color = when(person.color) {
-                Person.Color.WHITE -> R.color.white
-                Person.Color.WHITE_DARK -> R.color.white_dark
-            }
-            this.view?.setBackgroundColor(resources.getColor(color))
+            this.view?.setBackgroundColor(person.color.getColorInt(activity.applicationContext))
         }
 
         fullName.addTextChangedListener(textChangeListener)
