@@ -35,14 +35,14 @@ class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
             activity.run { replaceFragment(PersonFragment.newInstance(it.id)) }
         }
 
-        initViews(adapter, view)
+        initViews(adapter)
 
         floatingActionButton.setOnClickListener {
             activity.run { replaceFragment(PersonFragment.newInstance(null)) }
         }
     }
 
-    private fun initViews(a: MainAdapter, view: View) {
+    private fun initViews(a: MainAdapter) {
         personList.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = a
