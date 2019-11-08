@@ -25,8 +25,7 @@ data class Person(val id: String = "", val name: String = "", val description: S
         return result
     }
 
-
     enum class Color {
-        WHITE, DARK_WHITE
+        WHITE, WHITE_DARK
     }
 }

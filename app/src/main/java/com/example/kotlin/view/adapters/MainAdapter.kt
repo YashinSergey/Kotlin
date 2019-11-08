@@ -34,7 +34,7 @@ class MainAdapter(val onItemClick: ((Person) -> Unit)? = null) : RecyclerView.Ad
             userDescription.text = person.description
             val color = when(person.color) {
                 Person.Color.WHITE -> R.color.white
-                Person.Color.DARK_WHITE -> R.color.darkWhite
+                Person.Color.WHITE_DARK -> R.color.white_dark
 
             }
             setBackgroundColor(ContextCompat.getColor(itemView.context, color))

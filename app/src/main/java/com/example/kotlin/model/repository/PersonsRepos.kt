@@ -67,7 +67,7 @@ object PersonsRepos {
 //    when(whiteColor) {
 //        true -> whiteColor = false
 //        false -> {
-//            color =  Person.Color.DARK_WHITE
+//            color =  Person.Color.WHITE_DARK
 //            whiteColor = true
 //        }
 //    }
