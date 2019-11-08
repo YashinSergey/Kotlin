@@ -12,8 +12,7 @@ import com.example.kotlin.view.fragments.PersonFragment
 
 class MainActivity : AppCompatActivity() {
 
-    var mainFragment: MainFragment? = null
-    var personFragment: PersonFragment? = null
+    private var mainFragment: MainFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFragments(savedInstanceState: Bundle?) {
         mainFragment = MainFragment()
-        personFragment = PersonFragment()
         if (savedInstanceState == null) {
             replaceFragment(mainFragment!!)
         }
