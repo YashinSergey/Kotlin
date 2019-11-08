@@ -74,15 +74,16 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         fullName.removeTextChangedListener(textChangeListener)
         personDescription.removeTextChangedListener(textChangeListener)
 
-        if (person != null) {
-            fullName.setText(person?.name?.replace(":", "") ?: "")
-            personDescription.setText(person?.description ?: "")
-            val color = when(person!!.color) {
+        person?.let {person ->
+            fullName.setText(person.name.replace(":", ""))
+            personDescription.setText(person.description)
+            val color = when(person.color) {
                 Person.Color.WHITE -> R.color.white
-                Person.Color.DARK_WHITE -> R.color.darkWhite
+                Person.Color.WHITE_DARK -> R.color.white_dark
             }
             this.view?.setBackgroundColor(resources.getColor(color))
         }
+
         fullName.addTextChangedListener(textChangeListener)
         personDescription.addTextChangedListener(textChangeListener)
     }
@@ -108,8 +109,9 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
     }
+
+
 }
 
 
