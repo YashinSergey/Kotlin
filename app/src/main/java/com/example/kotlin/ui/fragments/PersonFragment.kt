@@ -1,4 +1,4 @@
-package com.example.kotlin.view.fragments
+package com.example.kotlin.ui.fragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.view.MainActivity
-import com.example.kotlin.view.viewstates.PersonViewState
+import com.example.kotlin.ui.MainActivity
+import com.example.kotlin.ui.viewstates.PersonViewState
 import com.example.kotlin.viewmodels.PersonViewModel
 import kotlinx.android.synthetic.main.fragment_person.*
 import java.text.SimpleDateFormat

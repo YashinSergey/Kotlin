@@ -1,11 +1,11 @@
-package com.example.kotlin.view.fragments
+package com.example.kotlin.ui.fragments
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.kotlin.viewmodels.BaseViewModel
-import com.example.kotlin.view.viewstates.BaseViewState
+import com.example.kotlin.ui.viewstates.BaseViewState
 
 abstract class BaseFragment<T, E: BaseViewState<T>> : Fragment() {
 

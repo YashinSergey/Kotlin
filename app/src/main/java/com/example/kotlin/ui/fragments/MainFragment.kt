@@ -1,4 +1,4 @@
-package com.example.kotlin.view.fragments
+package com.example.kotlin.ui.fragments
 
 import android.os.Build
 import android.os.Bundle
@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.view.MainActivity
-import com.example.kotlin.view.adapters.MainAdapter
-import com.example.kotlin.view.viewstates.MainViewState
+import com.example.kotlin.ui.MainActivity
+import com.example.kotlin.ui.adapters.MainAdapter
+import com.example.kotlin.ui.viewstates.MainViewState
 import com.example.kotlin.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 

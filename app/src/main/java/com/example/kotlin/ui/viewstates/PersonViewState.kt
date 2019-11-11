@@ -1,4 +1,4 @@
-package com.example.kotlin.view.viewstates
+package com.example.kotlin.ui.viewstates
 
 import com.example.kotlin.model.entity.Person
 
