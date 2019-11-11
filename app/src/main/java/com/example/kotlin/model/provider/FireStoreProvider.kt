@@ -1,6 +1,5 @@
 package com.example.kotlin.model.provider
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
@@ -15,48 +14,37 @@ class FireStoreProvider: RemoteDataProvider {
     }
 
     private var whiteColor: Boolean = true
-    private val store = FirebaseFirestore.getInstance()
-    private val personsReference = store.collection(PERSONS_COLLECTION)
+    private val store by lazy { FirebaseFirestore.getInstance() }
+    private val personsReference by lazy { store.collection(PERSONS_COLLECTION) }
 
-    override fun subscribeToAllPersons(): LiveData<PersonResult> {
-        val result = MutableLiveData<PersonResult>()
+    override fun subscribeToAllPersons() = MutableLiveData<PersonResult>().apply {
         personsReference.addSnapshotListener {snapshot, e ->
-            e?.let {result.value = PersonResult.Error(it)}
+            e?.let {value = PersonResult.Error(it)}
                 ?: let{snapshot?.let {
                     val persons = mutableListOf<Person>()
                     for (doc: QueryDocumentSnapshot in snapshot) {
                         persons.add(doc.toObject(Person::class.java))
                     }
-                    result.value = PersonResult.Success(persons)
+                    value = PersonResult.Success(persons)
                 }}
         }
-        return result
     }
 
-    override fun getPersonById(id: String): LiveData<PersonResult> {
-        val result = MutableLiveData<PersonResult>()
-
+    override fun getPersonById(id: String) = MutableLiveData<PersonResult>().apply  {
         personsReference.document(id).get()
             .addOnSuccessListener { documentSnapshot ->
-            result.value = PersonResult.Success(documentSnapshot.toObject(Person::class.java))
+            value = PersonResult.Success(documentSnapshot.toObject(Person::class.java))
         }
-            .addOnFailureListener { result.value = PersonResult.Error(it) }
-        return result
+            .addOnFailureListener { value = PersonResult.Error(it) }
     }
 
-    override fun savePerson(person: Person): LiveData<PersonResult> {
-        val result = MutableLiveData<PersonResult>()
-
+    override fun savePerson(person: Person) = MutableLiveData<PersonResult>().apply {
         personsReference.document(person.id)
             .set(person)
-            .addOnSuccessListener {
-                Timber.d {"Person $person is saved"}
-            result.value = PersonResult.Success(person)
-        }.addOnFailureListener {
-                Timber.d {"Error saving $person, message: ${it.message}"}
-                result.value = PersonResult.Error(it)
-            }
-        return result
+            .addOnSuccessListener { Timber.d {"Person $person is saved"}
+            value = PersonResult.Success(person) }
+            .addOnFailureListener { Timber.d {"Error saving $person, message: ${it.message}"}
+            value = PersonResult.Error(it)}
     }
 
     override fun setColor(): Person.Color {
