@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.kotlin.model.errors.AuthException
+import com.example.kotlin.ui.MainActivity
 import com.example.kotlin.viewmodels.BaseViewModel
 import com.example.kotlin.ui.viewstates.BaseViewState
+
 
 abstract class BaseFragment<T, E: BaseViewState<T>> : Fragment() {
 
     abstract val viewModel: BaseViewModel<T, E>
+    lateinit var activity: MainActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity = getActivity() as MainActivity
         viewModel.getViewState().observe(this, Observer<E> {
             it ?: return@Observer
             it.error?.let { error ->
@@ -26,8 +31,11 @@ abstract class BaseFragment<T, E: BaseViewState<T>> : Fragment() {
     abstract fun renderData(data: T)
     
     private fun renderError(t: Throwable?) = t?.let {
-        it.message?.let { message ->
-            showError(message)
+        when (t) {
+            is AuthException -> activity.startLogin()
+            else -> it.message?.let { message ->
+                showError(message)
+            }
         }
     }
 

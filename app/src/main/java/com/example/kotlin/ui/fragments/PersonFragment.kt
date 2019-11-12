@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.ui.MainActivity
 import com.example.kotlin.ui.viewstates.PersonViewState
 import com.example.kotlin.viewmodels.PersonViewModel
 import kotlinx.android.synthetic.main.fragment_person.*
@@ -19,23 +18,18 @@ import java.util.*
 class PersonFragment : BaseFragment<Person?, PersonViewState>() {
     override val viewModel: PersonViewModel by lazy { ViewModelProviders.of(this).get(PersonViewModel::class.java) }
 
-    private lateinit var activity: MainActivity
-
     private var person: Person? = null
 
     companion object {
-
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
         const val KEY = "person"
         fun newInstance(personId: String?) = PersonFragment().apply {
             arguments = Bundle().apply { putString(KEY, personId) }
         }
-
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_person, container, false)
-        activity = getActivity() as MainActivity
-        return view
+        return inflater.inflate(R.layout.fragment_person, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
