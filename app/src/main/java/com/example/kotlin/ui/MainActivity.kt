@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()

@@ -8,9 +8,10 @@ class AuthViewModel : BaseViewModel<Boolean?, AuthViewState>() {
 
     fun requestUser(){
         PersonsRepos.getCurrentUser().observeForever {
-            viewStateLiveData.value = when {
-                it != null -> AuthViewState(authenticated = true)
-                else -> AuthViewState(error = AuthException())
+            viewStateLiveData.value = if(it != null) {
+                AuthViewState(authenticated = true)
+            } else {
+                AuthViewState(error = AuthException())
             }
         }
     }
