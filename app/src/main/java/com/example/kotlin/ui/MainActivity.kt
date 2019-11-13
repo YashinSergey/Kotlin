@@ -84,8 +84,7 @@ class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
     override fun onLogout() {
         AuthUI.getInstance().signOut(this)
             .addOnCompleteListener {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                replaceFragment(AuthFragment())
             }
     }
 

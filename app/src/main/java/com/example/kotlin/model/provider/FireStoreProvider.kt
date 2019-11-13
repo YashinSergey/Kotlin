@@ -19,7 +19,8 @@ class FireStoreProvider: RemoteDataProvider {
 
     private var whiteColor: Boolean = true
     private val store by lazy { FirebaseFirestore.getInstance() }
-    private val user = FirebaseAuth.getInstance().currentUser
+    private val user
+        get() = FirebaseAuth.getInstance().currentUser
 
     override fun getCurrentUser() = MutableLiveData<User?>().apply {
         value = user?.let {
