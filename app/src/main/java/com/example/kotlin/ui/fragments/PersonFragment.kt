@@ -1,5 +1,6 @@
 package com.example.kotlin.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -64,11 +65,13 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         return SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(date)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initViews() {
         fullName.removeTextChangedListener(textChangeListener)
         personDescription.removeTextChangedListener(textChangeListener)
 
         person?.let {person ->
+            tvLastChangeDate.text = "  ${person.lastChanged}"
             fullName.setText(person.name.replace(":", ""))
             personDescription.setText(person.description)
             this.view?.setBackgroundColor(person.color.getColorInt(activity.applicationContext))
