@@ -3,7 +3,7 @@ package com.example.kotlin.viewmodels
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
-import com.example.kotlin.view.viewstates.PersonViewState
+import com.example.kotlin.ui.viewstates.PersonViewState
 
 class PersonViewModel : BaseViewModel<Person?, PersonViewState>() {
 
@@ -32,4 +32,6 @@ class PersonViewModel : BaseViewModel<Person?, PersonViewState>() {
             }
         }
     }
+
+
 }

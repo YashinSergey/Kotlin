@@ -4,7 +4,7 @@ import androidx.lifecycle.Observer
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
-import com.example.kotlin.view.viewstates.MainViewState
+import com.example.kotlin.ui.viewstates.MainViewState
 
 class MainViewModel :  BaseViewModel<List<Person>?, MainViewState>() {
 
