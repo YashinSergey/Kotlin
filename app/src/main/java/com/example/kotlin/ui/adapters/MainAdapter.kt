@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlin.R
 import com.example.kotlin.common.getColorInt
 import com.example.kotlin.model.entity.Person
+import com.example.kotlin.model.repository.PersonsRepos
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_person.view.*
 

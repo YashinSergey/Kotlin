@@ -17,7 +17,6 @@ class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val stor
         private const val USERS_COLLECTION = "users"
     }
 
-    private var whiteColor: Boolean = true
     private val user
         get() = firebaseAuth.currentUser
 
@@ -71,17 +70,5 @@ class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val stor
         } catch (error: Throwable){
             value = PersonResult.Error(error)
         }
-    }
-
-    override fun setColor(): Person.Color {
-        var color = Person.Color.WHITE
-        when (whiteColor) {
-            true -> whiteColor = false
-            false -> {
-                color = Person.Color.WHITE_DARK
-                whiteColor = true
-            }
-        }
-        return color
     }
 }

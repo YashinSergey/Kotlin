@@ -9,6 +9,5 @@ interface RemoteDataProvider {
     fun subscribeToAllPersons(): LiveData<PersonResult>
     fun getPersonById(id: String): LiveData<PersonResult>
     fun savePerson(person: Person) : LiveData<PersonResult>
-    fun setColor(): Person.Color
     fun getCurrentUser(): LiveData<User?>
 }
