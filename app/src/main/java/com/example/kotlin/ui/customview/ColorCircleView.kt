@@ -69,7 +69,6 @@ class ColorCircleView @JvmOverloads constructor(context: Context, attrs: Attribu
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = (radius * 2 + paddingTop + paddingBottom).toInt()
         val width = (radius * 2 + paddingStart + paddingEnd).toInt()
-
         setMeasuredDimension(width, height)
     }
 
@@ -81,7 +80,6 @@ class ColorCircleView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
         canvas.drawCircle(center.first, center.second, radius, strokePaint)
         canvas.drawCircle(center.first, center.second, radius - strokeWidth, fillPaint)
     }

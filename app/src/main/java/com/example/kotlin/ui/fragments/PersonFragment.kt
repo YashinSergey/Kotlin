@@ -25,9 +25,9 @@ class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), On
     override val viewModel: PersonViewModel by viewModel()
 
     private var person: Person? = null
+    private var color = Person.Color.WHITE
 
     companion object {
-
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
         const val KEY = "person"
         fun newInstance(personId: String?) = PersonFragment().apply {
@@ -42,6 +42,11 @@ class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), On
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setPersonIfNotNull()
+        colorPicker.onColorClickListener = {
+            color = it
+            view.setBackgroundColor(color.getColorInt(activity.applicationContext))
+            savePerson()
+        }
         initViews()
         setTextViewLastChangeDate()
     }
@@ -113,11 +118,13 @@ class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), On
         person = person?.copy(
             name = fullName.text.toString(),
             description = personDescription.text.toString(),
+            color = color,
             lastChanged = Date()
         ) ?: Person(
             UUID.randomUUID().toString(),
             fullName.text.toString(),
-            personDescription.text.toString()
+            personDescription.text.toString(),
+            color = color
         )
         person?.let { viewModel.save(it) }
     }
