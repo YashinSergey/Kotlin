@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kotlin</string>
+    <string name="app_name">Personal data app</string>
     <string name="button">button</string>
     <string name="exit">Exit</string>
     <string name="full_name">ФИО</string>

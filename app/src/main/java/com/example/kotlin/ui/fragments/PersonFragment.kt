@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
@@ -30,6 +28,7 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_person, container, false)
     }
 
@@ -39,6 +38,16 @@ class PersonFragment : BaseFragment<Person?, PersonViewState>() {
         initViews()
         setTextViewLastChangeDate()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_person, menu)
+        menu.findItem(R.id.logout).isVisible = false
+    }
+
+//    override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
+//        R.id.palette -> Person.Color.
+//        R.id.delete ->
+//    }
 
     private fun setPersonIfNotNull() {
         val bundle = this.arguments

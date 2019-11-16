@@ -37,5 +37,11 @@ data class Person(val id: String = "", val name: String = "", val description: S
                 WHITE -> R.color.white
                 WHITE_DARK -> R.color.white_dark
             })
+
+        fun getColorRes() :Int =
+            when(PersonsRepos.setColor()) {
+                WHITE -> R.color.white
+                WHITE_DARK -> R.color.white_dark
+            }
     }
 }
