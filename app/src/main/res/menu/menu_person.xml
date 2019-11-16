@@ -8,13 +8,13 @@
         android:icon="@drawable/ic_palette_black_24dp"
         tools:ignore="MenuTitle, AppCompatResource"
         app:showAsAction="ifRoom"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete_black_24dp"
         tools:ignore="MenuTitle, AppCompatResource"
         app:showAsAction="ifRoom"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom" />
 
 </menu>

@@ -71,4 +71,18 @@ class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val stor
             value = PersonResult.Error(error)
         }
     }
+
+    override fun deletePerson(personId: String) = MutableLiveData<PersonResult>().apply {
+        try {
+            getUserPersonsCollection().document(personId)
+                .delete()
+                .addOnSuccessListener {
+                    value = PersonResult.Success(null) }
+                .addOnFailureListener {
+                    value = PersonResult.Error(it)}
+        } catch (error: Throwable){
+            value = PersonResult.Error(error)
+        }
+    }
+
 }

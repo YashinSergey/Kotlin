@@ -10,4 +10,5 @@ interface RemoteDataProvider {
     fun getPersonById(id: String): LiveData<PersonResult>
     fun savePerson(person: Person) : LiveData<PersonResult>
     fun getCurrentUser(): LiveData<User?>
+    fun deletePerson(personId: String) :LiveData<PersonResult>
 }

@@ -31,11 +31,11 @@ class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
             activity.run { replaceFragment(PersonFragment.newInstance(it.id)) }
         }
 
-        initViews(adapter)
-
         floatingActionButton.setOnClickListener {
             activity.run { replaceFragment(PersonFragment.newInstance(null)) }
         }
+
+        initViews(adapter)
     }
 
     private fun initViews(a: MainAdapter) {
