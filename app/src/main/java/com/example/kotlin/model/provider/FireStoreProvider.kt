@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
-class FireStoreProvider: RemoteDataProvider {
+class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val store: FirebaseFirestore): RemoteDataProvider {
 
     companion object {
         private const val PERSONS_COLLECTION = "persons"
@@ -18,9 +18,8 @@ class FireStoreProvider: RemoteDataProvider {
     }
 
     private var whiteColor: Boolean = true
-    private val store by lazy { FirebaseFirestore.getInstance() }
     private val user
-        get() = FirebaseAuth.getInstance().currentUser
+        get() = firebaseAuth.currentUser
 
     override fun getCurrentUser() = MutableLiveData<User?>().apply {
         value = user?.let {

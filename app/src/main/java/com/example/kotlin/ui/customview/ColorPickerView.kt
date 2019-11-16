@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.annotation.Dimension
 import androidx.annotation.Dimension.DP
+import com.example.kotlin.common.getColorRes
 import com.example.kotlin.model.entity.Person
 import org.jetbrains.anko.dip
 

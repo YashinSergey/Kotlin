@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
+import com.example.kotlin.common.getColorInt
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.ui.viewstates.PersonViewState
 import com.example.kotlin.viewmodels.PersonViewModel
 import kotlinx.android.synthetic.main.fragment_person.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class PersonFragment : BaseFragment<Person?, PersonViewState>() {
-    override val viewModel: PersonViewModel by lazy { ViewModelProviders.of(this).get(PersonViewModel::class.java) }
+
+    override val viewModel: PersonViewModel by viewModel()
 
     private var person: Person? = null
 

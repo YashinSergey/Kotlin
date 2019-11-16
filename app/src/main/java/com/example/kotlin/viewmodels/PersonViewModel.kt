@@ -5,7 +5,7 @@ import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
 import com.example.kotlin.ui.viewstates.PersonViewState
 
-class PersonViewModel : BaseViewModel<Person?, PersonViewState>() {
+class PersonViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<Person?, PersonViewState>() {
 
     private var pendingPerson: Person? = null
 
@@ -19,12 +19,12 @@ class PersonViewModel : BaseViewModel<Person?, PersonViewState>() {
 
     override fun onCleared() {
         pendingPerson?.let {
-            PersonsRepos.savePerson(it)
+            personsRepos.savePerson(it)
         }
     }
 
     fun loadPerson(personId: String) {
-        PersonsRepos.getPersonById(personId).observeForever {
+        personsRepos.getPersonById(personId).observeForever {
             it ?: return@observeForever
             when(it) {
                 is PersonResult.Success<*> -> viewStateLiveData.value = PersonViewState(person = it.data as? Person)

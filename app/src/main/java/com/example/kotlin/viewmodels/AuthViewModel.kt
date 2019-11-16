@@ -4,10 +4,10 @@ import com.example.kotlin.model.errors.AuthException
 import com.example.kotlin.model.repository.PersonsRepos
 import com.example.kotlin.ui.viewstates.AuthViewState
 
-class AuthViewModel : BaseViewModel<Boolean?, AuthViewState>() {
+class AuthViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<Boolean?, AuthViewState>() {
 
     fun requestUser(){
-        PersonsRepos.getCurrentUser().observeForever {
+        personsRepos.getCurrentUser().observeForever {
             viewStateLiveData.value = if(it != null) {
                 AuthViewState(authenticated = true)
             } else {

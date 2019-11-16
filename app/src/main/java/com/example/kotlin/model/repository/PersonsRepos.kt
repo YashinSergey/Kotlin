@@ -2,12 +2,9 @@ package com.example.kotlin.model.repository
 
 
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.model.provider.FireStoreProvider
 import com.example.kotlin.model.provider.RemoteDataProvider
 
-object PersonsRepos {
-
-    private val remoteProvider: RemoteDataProvider = FireStoreProvider()
+class PersonsRepos(private val remoteProvider: RemoteDataProvider) {
 
     fun getPersons() = remoteProvider.subscribeToAllPersons()
     fun savePerson(person: Person) = remoteProvider.savePerson(person)

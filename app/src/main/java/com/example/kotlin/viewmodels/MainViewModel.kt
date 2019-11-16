@@ -6,8 +6,10 @@ import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
 import com.example.kotlin.ui.viewstates.MainViewState
 
-class MainViewModel :  BaseViewModel<List<Person>?, MainViewState>() {
 
+class MainViewModel(private val personsRepos: PersonsRepos) :  BaseViewModel<List<Person>?, MainViewState>() {
+
+    @Suppress("UNCHECKED_CAST")
     private val personObserver = Observer<PersonResult> {
         it ?: return@Observer
 
@@ -17,17 +19,15 @@ class MainViewModel :  BaseViewModel<List<Person>?, MainViewState>() {
         }
     }
 
-    private val personsRepos = PersonsRepos.getPersons()
-
     init {
         viewStateLiveData.value = MainViewState()
-        personsRepos.observeForever(personObserver)
+        personsRepos.getPersons().observeForever(personObserver)
     }
 
     override fun getViewState() = viewStateLiveData
 
     override fun onCleared() {
-        personsRepos.removeObserver(personObserver)
+        personsRepos.getPersons().removeObserver(personObserver)
         super.onCleared()
     }
 }
