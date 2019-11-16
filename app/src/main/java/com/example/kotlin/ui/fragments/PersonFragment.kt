@@ -51,6 +51,11 @@ class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), On
         setTextViewLastChangeDate()
     }
 
+    override fun onPause() {
+        super.onPause()
+        savePerson()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater
         .inflate(R.menu.menu_person, menu).let { menu.findItem(R.id.logout).isVisible = false }
 
