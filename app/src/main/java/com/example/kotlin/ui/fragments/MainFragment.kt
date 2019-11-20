@@ -39,7 +39,7 @@ class MainFragment: BaseFragment<List<Person>?, MainViewState>() {
     }
 
     private fun initViews(a: MainAdapter) {
-        personList.apply {
+        personsList.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = a
         }

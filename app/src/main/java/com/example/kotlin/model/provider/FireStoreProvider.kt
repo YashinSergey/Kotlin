@@ -35,10 +35,7 @@ class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val stor
             getUserPersonsCollection().addSnapshotListener {snapshot, e ->
                 e?.let {value = PersonResult.Error(it)}
                     ?: let{snapshot?.let {
-                        val persons = mutableListOf<Person>()
-                        for (doc: QueryDocumentSnapshot in snapshot) {
-                            persons.add(doc.toObject(Person::class.java))
-                        }
+                        val persons = it.documents.map { it.toObject(Person::class.java) }
                         value = PersonResult.Success(persons)
                     }}
             }

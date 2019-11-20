@@ -1,5 +1,6 @@
 package com.example.kotlin.viewmodels
 
+import androidx.annotation.VisibleForTesting
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
@@ -14,6 +15,7 @@ class PersonViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<Pe
         viewStateLiveData.value = PersonViewState(PersonViewState.Data(person = person))
     }
 
+    @VisibleForTesting public
     override fun onCleared() {
         pendingPerson?.let {
             personsRepos.savePerson(it)
