@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.errors.AuthException
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -13,7 +12,6 @@ import io.mockk.*
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -130,9 +128,5 @@ class FireStoreProviderTest {
         every { mockResultCollection.document(testPersons[0].id) } returns mockDocumentReference
         provider.deletePerson(testPersons[0].id)
         verify(exactly = 1) { mockDocumentReference.delete() }
-    }
-
-    @After
-    fun tearDown() {
     }
 }

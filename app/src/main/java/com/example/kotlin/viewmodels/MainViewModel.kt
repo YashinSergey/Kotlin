@@ -1,5 +1,6 @@
 package com.example.kotlin.viewmodels
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
@@ -26,6 +27,7 @@ class MainViewModel(private val personsRepos: PersonsRepos) :  BaseViewModel<Lis
 
     override fun getViewState() = viewStateLiveData
 
+    @VisibleForTesting public
     override fun onCleared() {
         personsRepos.getPersons().removeObserver(personObserver)
         super.onCleared()
