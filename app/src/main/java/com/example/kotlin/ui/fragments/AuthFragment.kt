@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import com.example.kotlin.R
 import com.example.kotlin.ui.viewstates.AuthViewState
 import com.example.kotlin.viewmodels.AuthViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class AuthFragment: BaseFragment<Boolean?, AuthViewState>() {
+@ExperimentalCoroutinesApi
+class AuthFragment: BaseFragment<Boolean?>() {
 
     override val viewModel: AuthViewModel by viewModel()
 
