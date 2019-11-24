@@ -5,18 +5,20 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.kotlin.R
-import com.example.kotlin.ui.auth.LogoutDialog
 import com.example.kotlin.ui.fragments.AuthFragment
 import com.example.kotlin.ui.fragments.MainFragment
+import com.example.kotlin.ui.fragments.OnBackPressedListener
 import com.example.kotlin.ui.fragments.PersonFragment
 import com.firebase.ui.auth.AuthUI
+import org.jetbrains.anko.alert
 
 
-class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
+class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val RC_SIGN_IN = 9646
@@ -34,10 +36,8 @@ class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
         initFragments(savedInstanceState)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu) = MenuInflater(this)
+        .inflate(R.menu.menu_main, menu).let { true }
 
     override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
             R.id.logout -> showLogoutDialog().let { true }
@@ -45,8 +45,12 @@ class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
         }
 
     private fun showLogoutDialog(){
-        supportFragmentManager.findFragmentByTag(LogoutDialog.TAG) ?:
-                LogoutDialog.createInstance().show(supportFragmentManager, LogoutDialog.TAG)
+        alert {
+            titleResource = R.string.logout_dialog_title
+            messageResource = R.string.logout_dialog_message
+            positiveButton(getString(R.string.logout_dialog_ok)) { onLogout() }
+            negativeButton(getString(R.string.logout_dialog_cancel)) {dialog -> dialog.dismiss() }
+        }.show()
     }
 
     private fun initFragments(savedInstanceState: Bundle?) {
@@ -81,7 +85,7 @@ class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
         )
     }
 
-    override fun onLogout() {
+   private fun onLogout() {
         AuthUI.getInstance().signOut(this)
             .addOnCompleteListener {
                 replaceFragment(AuthFragment())
@@ -93,5 +97,18 @@ class MainActivity : AppCompatActivity() , LogoutDialog.LogoutListener {
         if (requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK) {
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        val fm = supportFragmentManager
+        var backPressedListener: OnBackPressedListener? = null
+        for(fragment in fm.fragments) {
+            when(fragment){
+                is OnBackPressedListener -> backPressedListener = fragment as OnBackPressedListener
+            }
+        }
+        backPressedListener?.let {
+            backPressedListener.onBackPressed()
+            super.onBackPressed() } ?: super.onBackPressed()
     }
 }

@@ -10,17 +10,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
-class FireStoreProvider: RemoteDataProvider {
+class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val store: FirebaseFirestore): RemoteDataProvider {
 
     companion object {
         private const val PERSONS_COLLECTION = "persons"
         private const val USERS_COLLECTION = "users"
     }
 
-    private var whiteColor: Boolean = true
-    private val store by lazy { FirebaseFirestore.getInstance() }
     private val user
-        get() = FirebaseAuth.getInstance().currentUser
+        get() = firebaseAuth.currentUser
 
     override fun getCurrentUser() = MutableLiveData<User?>().apply {
         value = user?.let {
@@ -74,15 +72,17 @@ class FireStoreProvider: RemoteDataProvider {
         }
     }
 
-    override fun setColor(): Person.Color {
-        var color = Person.Color.WHITE
-        when (whiteColor) {
-            true -> whiteColor = false
-            false -> {
-                color = Person.Color.WHITE_DARK
-                whiteColor = true
-            }
+    override fun deletePerson(personId: String) = MutableLiveData<PersonResult>().apply {
+        try {
+            getUserPersonsCollection().document(personId)
+                .delete()
+                .addOnSuccessListener {
+                    value = PersonResult.Success(null) }
+                .addOnFailureListener {
+                    value = PersonResult.Error(it)}
+        } catch (error: Throwable){
+            value = PersonResult.Error(error)
         }
-        return color
     }
+
 }

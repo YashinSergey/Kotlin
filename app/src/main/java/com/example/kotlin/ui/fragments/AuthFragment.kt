@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import com.example.kotlin.R
 import com.example.kotlin.ui.viewstates.AuthViewState
 import com.example.kotlin.viewmodels.AuthViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class AuthFragment: BaseFragment<Boolean?, AuthViewState>() {
 
-    override val viewModel by lazy { ViewModelProviders.of(activity).get(AuthViewModel::class.java) }
+    override val viewModel: AuthViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity.setTheme(R.style.AuthTheme)
