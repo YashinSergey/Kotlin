@@ -3,32 +3,57 @@ package com.example.kotlin.ui.fragments
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.example.kotlin.model.errors.AuthException
 import com.example.kotlin.ui.MainActivity
 import com.example.kotlin.viewmodels.BaseViewModel
-import com.example.kotlin.ui.viewstates.BaseViewState
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.consumeEach
+import kotlin.coroutines.CoroutineContext
 
 
-abstract class BaseFragment<T, E: BaseViewState<T>> : Fragment() {
+@ExperimentalCoroutinesApi
+abstract class BaseFragment<E> : Fragment(), CoroutineScope {
 
-    abstract val viewModel: BaseViewModel<T, E>
+    abstract val viewModel: BaseViewModel<E>
     lateinit var activity: MainActivity
+
+    override val coroutineContext: CoroutineContext by lazy { Dispatchers.Main + Job() }
+    lateinit var dataJob: Job
+    lateinit var errorJob: Job
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity = getActivity() as MainActivity
-        viewModel.getViewState().observe(this, Observer<E> {
-            it ?: return@Observer
-            it.error?.let { error ->
-                renderError(error)
-                return@Observer
-            }
-            renderData(it.data)
-        })
     }
 
-    abstract fun renderData(data: T)
+    override fun onStart() {
+        super.onStart()
+        dataJob = launch {
+            viewModel.getViewState().consumeEach {
+                renderData(it)
+            }
+        }
+
+        errorJob = launch {
+            viewModel.getErrorChannel().consumeEach {
+                renderError(it)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dataJob.cancel()
+        errorJob.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineContext.cancel()
+    }
+
+    abstract fun renderData(data: E)
     
     private fun renderError(t: Throwable?) = t?.let {
         when (t) {

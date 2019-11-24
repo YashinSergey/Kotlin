@@ -1,15 +1,11 @@
 package com.example.kotlin.ui.fragments
 
-import android.app.PendingIntent.getActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.rule.ActivityTestRule
 import org.junit.After
 import org.junit.Before
 
@@ -17,7 +13,6 @@ import org.junit.Rule
 import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.example.kotlin.R
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.ui.MainActivity
 import com.example.kotlin.ui.adapters.MainAdapter
 import com.example.kotlin.ui.viewstates.MainViewState
 import com.example.kotlin.viewmodels.MainViewModel

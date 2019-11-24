@@ -2,17 +2,17 @@ package com.example.kotlin.viewmodels
 
 import com.example.kotlin.model.errors.AuthException
 import com.example.kotlin.model.repository.PersonsRepos
-import com.example.kotlin.ui.viewstates.AuthViewState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
-class AuthViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<Boolean?, AuthViewState>() {
+@ExperimentalCoroutinesApi
+class AuthViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<Boolean?>() {
 
     fun requestUser(){
-        personsRepos.getCurrentUser().observeForever {
-            viewStateLiveData.value = if(it != null) {
-                AuthViewState(authenticated = true)
-            } else {
-                AuthViewState(error = AuthException())
-            }
+        launch {
+            personsRepos.getCurrentUser()?.let {
+                setData(true)
+            } ?: setError(AuthException())
         }
     }
 }

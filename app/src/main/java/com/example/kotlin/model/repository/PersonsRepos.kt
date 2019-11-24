@@ -6,8 +6,8 @@ import com.example.kotlin.model.provider.RemoteDataProvider
 class PersonsRepos(private val remoteProvider: RemoteDataProvider) {
 
     fun getPersons() = remoteProvider.subscribeToAllPersons()
-    fun savePerson(person: Person) = remoteProvider.savePerson(person)
-    fun getPersonById(id: String) = remoteProvider.getPersonById(id)
-    fun getCurrentUser() = remoteProvider.getCurrentUser()
-    fun deletePerson(personId: String) = remoteProvider.deletePerson(personId)
+    suspend fun savePerson(person: Person) = remoteProvider.savePerson(person)
+    suspend fun getPersonById(id: String) = remoteProvider.getPersonById(id)
+    suspend fun getCurrentUser() = remoteProvider.getCurrentUser()
+    suspend fun deletePerson(personId: String) = remoteProvider.deletePerson(personId)
 }

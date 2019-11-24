@@ -1,26 +1,23 @@
 package com.example.kotlin.ui.fragments
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import com.example.kotlin.R
 import com.example.kotlin.common.getColorInt
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.ui.viewstates.PersonViewState
+import com.example.kotlin.ui.viewstates.PersonData
 import com.example.kotlin.viewmodels.PersonViewModel
 import kotlinx.android.synthetic.main.color_circle_view.*
 import kotlinx.android.synthetic.main.fragment_person.*
-import org.jetbrains.anko.AlertBuilder
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.alert
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), OnBackPressedListener {
+@ExperimentalCoroutinesApi
+class PersonFragment : BaseFragment<PersonData>(), OnBackPressedListener {
 
     override val viewModel: PersonViewModel by viewModel()
 
@@ -82,7 +79,7 @@ class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), On
         }
     }
 
-    override fun renderData(data: PersonViewState.Data) {
+    override fun renderData(data: PersonData) {
         if(data.isDeleted) {
             activity.supportFragmentManager.popBackStack()
             return
@@ -105,7 +102,7 @@ class PersonFragment : BaseFragment<PersonViewState.Data, PersonViewState>(), On
     @SuppressLint("SetTextI18n")
     private fun initViews() {
         person?.let {person ->
-            tvLastChangeDate.text = "  ${person.lastChanged}"
+            tvLastChangeDate?.text = "  ${person.lastChanged}"
             fullName.setText(person.name.replace(":", ""))
             personDescription.setText(person.description)
             this.view?.setBackgroundColor(person.color.getColorInt(activity.applicationContext))

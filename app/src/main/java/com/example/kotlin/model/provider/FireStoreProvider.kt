@@ -8,7 +8,13 @@ import com.example.kotlin.model.errors.AuthException
 import com.github.ajalt.timberkt.Timber
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val store: FirebaseFirestore): RemoteDataProvider {
 
@@ -20,65 +26,68 @@ class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val stor
     private val user
         get() = firebaseAuth.currentUser
 
-    override fun getCurrentUser() = MutableLiveData<User?>().apply {
-        value = user?.let {
-            User(it.displayName ?: "", it.email ?: "")
-        }
+    override suspend fun getCurrentUser(): User? = suspendCoroutine { continuation ->
+        continuation.resume(
+            user?.let { User(it.displayName ?: "", it.email ?: "")})
     }
 
     private fun getUserPersonsCollection() = user?.let {
         store.collection(USERS_COLLECTION).document(it.uid).collection(PERSONS_COLLECTION)
     } ?: throw AuthException()
 
-    override fun subscribeToAllPersons() = MutableLiveData<PersonResult>().apply {
+    @ExperimentalCoroutinesApi
+    override fun subscribeToAllPersons(): ReceiveChannel<PersonResult> = Channel<PersonResult>(Channel.CONFLATED).apply {
+        var registration: ListenerRegistration? = null
         try {
-            getUserPersonsCollection().addSnapshotListener {snapshot, e ->
-                e?.let {value = PersonResult.Error(it)}
+            registration = getUserPersonsCollection().addSnapshotListener {snapshot, e ->
+                val value = e?.let { PersonResult.Error(it) }
                     ?: let{snapshot?.let {
                         val persons = it.documents.map { it.toObject(Person::class.java) }
-                        value = PersonResult.Success(persons)
+                        PersonResult.Success(persons)
                     }}
+                value?.let { offer(it) }
             }
         } catch (error: Throwable){
-            value = PersonResult.Error(error)
+            offer(PersonResult.Error(error))
         }
+        invokeOnClose { registration?.remove() }
     }
 
-    override fun getPersonById(id: String) = MutableLiveData<PersonResult>().apply  {
+    override suspend fun getPersonById(id: String): Person = suspendCoroutine { continuation ->
         try {
             getUserPersonsCollection().document(id).get()
                 .addOnSuccessListener { documentSnapshot ->
-                    value = PersonResult.Success(documentSnapshot.toObject(Person::class.java))
+                    continuation.resume(documentSnapshot.toObject(Person::class.java)!!)
                 }
-                .addOnFailureListener { value = PersonResult.Error(it) }
+                .addOnFailureListener { continuation.resumeWithException(it) }
         } catch (error: Throwable){
-            value = PersonResult.Error(error)
+            continuation.resumeWithException(error)
         }
     }
 
-    override fun savePerson(person: Person) = MutableLiveData<PersonResult>().apply {
+    override suspend fun savePerson(person: Person): Person = suspendCoroutine { continuation ->
         try {
             getUserPersonsCollection().document(person.id)
                 .set(person)
                 .addOnSuccessListener { Timber.d {"Person $person is saved"}
-                    value = PersonResult.Success(person) }
+                    continuation.resume(person) }
                 .addOnFailureListener { Timber.d {"Error saving $person, message: ${it.message}"}
-                    value = PersonResult.Error(it)}
+                    continuation.resumeWithException(it)}
         } catch (error: Throwable){
-            value = PersonResult.Error(error)
+            continuation.resumeWithException(error)
         }
     }
 
-    override fun deletePerson(personId: String) = MutableLiveData<PersonResult>().apply {
+    override suspend fun deletePerson(personId: String): Unit = suspendCoroutine { continuation ->
         try {
             getUserPersonsCollection().document(personId)
                 .delete()
                 .addOnSuccessListener {
-                    value = PersonResult.Success(null) }
+                    continuation.resume(Unit) }
                 .addOnFailureListener {
-                    value = PersonResult.Error(it)}
+                    continuation.resumeWithException(it)}
         } catch (error: Throwable){
-            value = PersonResult.Error(error)
+            continuation.resumeWithException(error)
         }
     }
 

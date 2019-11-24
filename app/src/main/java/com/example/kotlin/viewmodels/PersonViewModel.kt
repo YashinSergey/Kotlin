@@ -1,46 +1,53 @@
 package com.example.kotlin.viewmodels
 
 import androidx.annotation.VisibleForTesting
-import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
-import com.example.kotlin.ui.viewstates.PersonViewState
+import com.example.kotlin.ui.viewstates.PersonData
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
-class PersonViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<PersonViewState.Data, PersonViewState>() {
+@ExperimentalCoroutinesApi
+class PersonViewModel(private val personsRepos: PersonsRepos) : BaseViewModel<PersonData>() {
 
-    private val pendingPerson: Person?
-        get() = viewStateLiveData.value?.data?.person
+    private val currentPerson: Person?
+        get() = getViewState().poll()?.person
 
     fun save(person: Person) {
-        viewStateLiveData.value = PersonViewState(PersonViewState.Data(person = person))
+        setData(PersonData(person = person))
     }
 
     @VisibleForTesting public
     override fun onCleared() {
-        pendingPerson?.let {
-            personsRepos.savePerson(it)
+        launch {
+            currentPerson?.let {
+                personsRepos.savePerson(it)
+            }
+            super.onCleared()
         }
     }
 
     fun loadPerson(personId: String) {
-        personsRepos.getPersonById(personId).observeForever {
-            it ?: return@observeForever
-            when(it) {
-                is PersonResult.Success<*> -> viewStateLiveData.value = PersonViewState(PersonViewState.Data(person = it.data as? Person))
-                is PersonResult.Error -> viewStateLiveData.value = PersonViewState(error = it.error)
+        launch {
+            try {
+                personsRepos.getPersonById(personId).let {
+                    setData(PersonData(person = it))
+                }
+            } catch (error: Throwable){
+                setError(error)
             }
         }
     }
 
     fun deletePerson() {
-        pendingPerson?.let {
-            personsRepos.deletePerson(it.id).observeForever {res ->
-                res?.let { result ->
-                    when(result) {
-                        is PersonResult.Success<*> -> viewStateLiveData.value = PersonViewState(PersonViewState.Data(isDeleted = true))
-                        is PersonResult.Error -> viewStateLiveData.value = PersonViewState(error = result.error)
-                    }
+        launch {
+            try {
+                currentPerson?.let {
+                    personsRepos.deletePerson(it.id)
+                    setData(PersonData(isDeleted = true))
                 }
+            } catch (error: Throwable){
+                setError(error)
             }
         }
     }
