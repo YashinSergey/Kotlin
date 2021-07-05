@@ -15,9 +15,10 @@ import com.example.kotlin.ui.fragments.MainFragment
 import com.example.kotlin.ui.fragments.OnBackPressedListener
 import com.example.kotlin.ui.fragments.PersonFragment
 import com.firebase.ui.auth.AuthUI
+import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 
-
+@ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -111,4 +112,6 @@ class MainActivity : AppCompatActivity() {
             backPressedListener.onBackPressed()
             super.onBackPressed() } ?: super.onBackPressed()
     }
+
+
 }

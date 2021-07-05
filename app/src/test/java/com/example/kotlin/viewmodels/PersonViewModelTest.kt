@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.repository.PersonsRepos
 import com.example.kotlin.model.entity.Person
-import com.example.kotlin.ui.viewstates.PersonViewState
+import com.example.kotlin.ui.viewstates.PersonData
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -37,8 +37,8 @@ class PersonViewModelTest {
 
     @Test
     fun `loadPerson should return person data`() {
-        var result: PersonViewState.Data? = null
-        var testData = PersonViewState.Data(false, testPerson)
+        var result: PersonData.Data? = null
+        var testData = PersonData.Data(false, testPerson)
         viewModel.getViewState().observeForever {
             result = it.data
         }
@@ -61,8 +61,8 @@ class PersonViewModelTest {
 
     @Test
     fun `deletePerson should return person data with isDeleted flag`() {
-        var result: PersonViewState.Data? = null
-        val testData = PersonViewState.Data(true, null)
+        var result: PersonData.Data? = null
+        val testData = PersonData.Data(true, null)
         viewModel.getViewState().observeForever {
             result = it.data
         }

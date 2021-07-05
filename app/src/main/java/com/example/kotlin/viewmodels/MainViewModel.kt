@@ -1,35 +1,34 @@
 package com.example.kotlin.viewmodels
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.Observer
 import com.example.kotlin.model.PersonResult
 import com.example.kotlin.model.entity.Person
 import com.example.kotlin.model.repository.PersonsRepos
-import com.example.kotlin.ui.viewstates.MainViewState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 
 
-class MainViewModel(private val personsRepos: PersonsRepos) :  BaseViewModel<List<Person>?, MainViewState>() {
+@ExperimentalCoroutinesApi
+class MainViewModel(private val personsRepos: PersonsRepos) :  BaseViewModel<List<Person>?>() {
 
-    @Suppress("UNCHECKED_CAST")
-    private val personObserver = Observer<PersonResult> {
-        it ?: return@Observer
+    private val personChannel = personsRepos.getPersons()
 
-        when(it) {
-            is PersonResult.Success<*> -> viewStateLiveData.value = MainViewState(persons = it.data as? List<Person>)
-            is PersonResult.Error -> viewStateLiveData.value = MainViewState(error = it.error)
+    init {
+        launch {
+            personChannel.consumeEach {
+                @Suppress("UNCHECKED_CAST")
+                when(it) {
+                    is PersonResult.Success<*> -> setData(it.data as? List<Person>)
+                    is PersonResult.Error -> setError(it.error)
+                }
+            }
         }
     }
 
-    init {
-        viewStateLiveData.value = MainViewState()
-        personsRepos.getPersons().observeForever(personObserver)
-    }
-
-    override fun getViewState() = viewStateLiveData
-
     @VisibleForTesting public
     override fun onCleared() {
-        personsRepos.getPersons().removeObserver(personObserver)
+        personChannel.cancel()
         super.onCleared()
     }
 }
